@@ -28,6 +28,11 @@ function AddTodo() {
         description: description,
       })
     );
+    dispatch(getTodoName(""));
+    dispatch(getTodoDate(""));
+    dispatch(getTodoSchedule(""));
+    dispatch(getTodoType(""));
+    dispatch(getTodoDescription(""));
   };
 
   return (

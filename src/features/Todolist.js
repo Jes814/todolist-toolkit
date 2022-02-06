@@ -1,10 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectTodos } from "./todoSlice";
 import { typeIcons } from "./Options";
 import moment from "moment";
+import { getEditId } from "../features/edittodo/editTodoSlice";
+import { getDeleteId } from "../features/todoSlice";
 
 function Todolist() {
+  const dispatch = useDispatch();
   const { todoLists } = useSelector(selectTodos);
   return (
     <div>
@@ -28,7 +31,11 @@ function Todolist() {
                         <div className="flex">
                           <div className="pr-5">
                             <button
-                              //   onClick={() => editModalUI(todo.id)}
+                              onClick={() =>
+                                dispatch(
+                                  getEditId({ id: todo.id, modal: true })
+                                )
+                              }
                               className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-900"
                             >
                               <i className="fa fa-pen pr-2"></i>Edit
@@ -36,7 +43,7 @@ function Todolist() {
                           </div>
                           <div>
                             <button
-                              //   onClick={() => deleteTodo(todo.id)}
+                              onClick={() => dispatch(getDeleteId(todo.id))}
                               className="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-900"
                             >
                               <i className="fa fa-trash pr-2"></i>Delete
