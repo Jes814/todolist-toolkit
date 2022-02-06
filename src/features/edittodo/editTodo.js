@@ -11,6 +11,7 @@ import {
   getEditType,
   getEditDescription,
 } from "./editTodoSlice";
+import Swal from "sweetalert2";
 
 function EditTodo() {
   const dispatch = useDispatch();
@@ -24,22 +25,45 @@ function EditTodo() {
   } = useSelector(selectEditTodo);
 
   const editTodo = () => {
-    dispatch(
-      getEditTodos({
-        editId: editId,
-        editName: editName,
-        editDate: editDate,
-        editDescription: editDescription,
-        editSchedule: editSchedule,
-        editType: editType,
-      })
-    );
-    dispatch(setModalUI(false));
-    dispatch(getEditName(""));
-    dispatch(getEditDate(""));
-    dispatch(getEditSchedule(""));
-    dispatch(getEditType(""));
-    dispatch(getEditDescription(""));
+    if (
+      editName !== "" &&
+      editDate !== "" &&
+      editDescription !== "" &&
+      editSchedule !== "" &&
+      editType !== ""
+    ) {
+      dispatch(
+        getEditTodos({
+          editId: editId,
+          editName: editName,
+          editDate: editDate,
+          editDescription: editDescription,
+          editSchedule: editSchedule,
+          editType: editType,
+        })
+      );
+      dispatch(setModalUI(false));
+      dispatch(getEditName(""));
+      dispatch(getEditDate(""));
+      dispatch(getEditSchedule(""));
+      dispatch(getEditType(""));
+      dispatch(getEditDescription(""));
+      Swal.fire({
+        title: "Success!",
+        text: "Todo updated successfully!",
+        icon: "success",
+        confirmButtonText: "Close",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "Fields are required!",
+        icon: "error",
+        confirmButtonText: "Close",
+        confirmButtonColor: "#3085d6",
+      });
+    }
   };
   return (
     <>

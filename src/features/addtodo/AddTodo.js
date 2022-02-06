@@ -11,6 +11,7 @@ import {
 } from "./addTodoSlice";
 import { getNewTodo } from "../todoSlice";
 import { v4 as uuidv4 } from "uuid";
+import Swal from "sweetalert2";
 
 function AddTodo() {
   const dispatch = useDispatch();
@@ -18,21 +19,44 @@ function AddTodo() {
     useSelector(selectAddTodo);
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      getNewTodo({
-        id: uuidv4(),
-        name: name,
-        date: date,
-        schedule: schedule,
-        type: type,
-        description: description,
-      })
-    );
-    dispatch(getTodoName(""));
-    dispatch(getTodoDate(""));
-    dispatch(getTodoSchedule(""));
-    dispatch(getTodoType(""));
-    dispatch(getTodoDescription(""));
+    if (
+      name !== "" &&
+      date !== "" &&
+      description !== "" &&
+      schedule !== "" &&
+      type !== ""
+    ) {
+      dispatch(
+        getNewTodo({
+          id: uuidv4(),
+          name: name,
+          date: date,
+          schedule: schedule,
+          type: type,
+          description: description,
+        })
+      );
+      dispatch(getTodoName(""));
+      dispatch(getTodoDate(""));
+      dispatch(getTodoSchedule(""));
+      dispatch(getTodoType(""));
+      dispatch(getTodoDescription(""));
+      Swal.fire({
+        title: "Success!",
+        text: "Todo added successfully!",
+        icon: "success",
+        confirmButtonText: "Close",
+        confirmButtonColor: "#3085d6",
+      });
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "Fields are required!",
+        icon: "error",
+        confirmButtonText: "Close",
+        confirmButtonColor: "#3085d6",
+      });
+    }
   };
 
   return (
